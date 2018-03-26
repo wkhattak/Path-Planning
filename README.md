@@ -154,7 +154,7 @@ Here the *sensor fusion* data is used to predict the future location of all non-
 
 ### 2. (Behaviour Planning) Find out which action should be taken [Code Block: lines 315 - 376](https://github.com/wkhattak/Path-Planning/blob/master/src/main.cpp#L315).
 
-Based on the predictions, it is decided whether the ego car should stay in the lane or change lane. the logic goes as follows:
+Based on the predictions, it is decided whether the ego car should stay in the lane or change lane. The logic goes as follows:
 
 1. If close to the non-ego car in the same lane, slow down gradually but if too close then slow down quicker.
 2. If close to the non-ego car in the same lane, check if a lane change is possible by calling `canChangeLane()`. If possible then set the `lane` to the required lane else stay in the same lane.
@@ -165,15 +165,15 @@ Based on the predictions, it is decided whether the ego car should stay in the l
 1. Generate/pickup at least 2 previous unused waypoints if `prev_path_size` is less than 3, else pickup 3 points.
 2. Add 3 more waypoints that are `30 metres` apart.
 3. Use the [spline](http://kluge.in-chemnitz.de/opensource/spline/) library & assign the above generated waypoints as anchor points.
-4. Use spline to generate `y` of the target `xy` based on known `x` which is the safe driving distance ahed (30 metres).
+4. Use spline to generate `y` of the target `xy` based on known `x` which is the safe driving distance ahead (30 metres).
 5. Find Euclidean distance from ego car to the target `xy`.
-6. Find no. of road sections `N` by diving the *Euclidean distance* by the product of *velocity* & *delta t*. In our case, the *delta t* is `0.02` seconds as the simulator visits each waypoint ever 0.02 seconds. Basically the formula used is `target_distance = N*0.02*veloctiy` OR `N = target_distance/(0.02*veloctiy)`. N is the total no. of road sections from current location to safe driving distance ahead when travelling at `velocity`. Now by dividing the `target_distance` with `N` we get the optimum increment (in x-axis) between each waypoint while remaining below the threshold values of 10 m/s^2 (acceleration) and of 10 m/s^3 (jerk). By adding this `x_increment` to the current x position (0), we get the first `x`. Using spline again we can find the corresponding `y`. We only add that many points that were utilised in the previous cycle `50-prev_path_size`.
+6. Find no. of road sections `N` by diving the *Euclidean distance* by the product of *velocity* & *delta t*. In our case, the *delta t* is `0.02` seconds as the simulator visits each waypoint every 0.02 seconds. Basically the formula used is `target_distance = N*0.02*veloctiy` OR `N = target_distance/(0.02*veloctiy)`. N is the total no. of road sections from current location to safe driving distance ahead when travelling at `velocity`. Now by dividing the `target_distance` with `N` we get the optimum increment (in x-axis) between each waypoint while remaining below the threshold values of 10 m/s^2 (acceleration) and of 10 m/s^3 (jerk). By adding this `x_increment` to the current x position (0), we get the first `x`. Using spline again we can find the corresponding `y`. We only add that many points that were utilised in the previous cycle `50-prev_path_size`.
 7. Each of the previously non-utilised & newly generated points are then added to the `next_x_vals` & `next_y_vals` collection for simulator's consumption.
 
 ### Shortcomings
 
 1. No target trajectory generation for each possible future state.
-2. No cost function used to decide between *lane change* & * keep lane* states.
+2. No cost function used to decide between *lane change* & *keep lane* states.
 3. Incorporate a controller such as PID or MPC that follows the Path Planner's output path. Note that since the output path contains not only desired location information but also the car's desired speed as varying spaced points. One idea is to extract the desired speed from the path and then feed that into the controller. Another idea is if working with an MPC is to change the cost function so instead of evaluating cost relative to how close you are to a path, instead evaluate by how close the car is to one of the associating points of the path's output.
 
 ## Basic Build Instructions
