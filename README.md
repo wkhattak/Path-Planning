@@ -174,6 +174,7 @@ Based on the predictions, it is decided whether the ego car should stay in the l
 
 1. No target trajectory generation for each possible future state.
 2. No cost function used to decide between *lane change* & * keep lane* states.
+3. Incorporate a controller such as PID or MPC that follows the Path Planner's output path. Note that since the output path contains not only desired location information but also the car's desired speed as varying spaced points. One idea is to extract the desired speed from the path and then feed that into the controller. Another idea is if working with an MPC is to change the cost function so instead of evaluating cost relative to how close you are to a path, instead evaluate by how close the car is to one of the associating points of the path's output.
 
 ## Basic Build Instructions
 
