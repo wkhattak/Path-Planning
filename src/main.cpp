@@ -273,7 +273,7 @@ int main() {
           
           
           /***************************************************************************************************************************
-          * Find if ego car is close to any non-ego car
+          * 1. Find if ego car is close to any non-ego car
           ***************************************************************************************************************************/ 
           if (prev_path_size > 0 ) car_s = end_path_s; // use previous s as current s value if one exists
            
@@ -313,7 +313,7 @@ int main() {
           
 
           /***************************************************************************************************************************
-          * Take action e.g. slow down to keep following or change lane if possible
+          * 2. Take action e.g. slow down to keep following or change lane if possible
           ***************************************************************************************************************************/ 
           if (too_close) {
             cout << "Lead car: id="<< other_car_id << ", lane=" << lane << ", distance="  << future_nearest_distance << endl;
@@ -377,7 +377,7 @@ int main() {
                               
 
           /***************************************************************************************************************************
-          * Trajectory generation w/o JMT but using spline & method used in the project walkthrough to avoid jerk
+          * 3. Trajectory generation w/o JMT but using spline & method used in the project walkthrough to avoid jerk
           ***************************************************************************************************************************/ 
           
           // Sparse x,y waypoints evenly spaced at DISTANCE_AHEAD metres used as anchors for spline
